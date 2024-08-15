@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: cars-api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: test
+          uri: lb://users
+          predicates:
+            - Path=/users/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: test
+          uri: lb://accounts
+          predicates:
+            - Path=/accounts/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+server:
+  port: 8082
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9191/eureka
+  instance:
+    preferIpAddress: false
