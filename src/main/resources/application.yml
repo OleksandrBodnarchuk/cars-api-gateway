@@ -11,6 +11,11 @@ spring:
             - Method=GET
           filters:
             - RemoveRequestHeader=Cookie
+        - id: register
+          uri: lb://users
+          predicates:
+            - Path=/users/**
+            - Method=POST
         - id: test
           uri: lb://accounts
           predicates:
