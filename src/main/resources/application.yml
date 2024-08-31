@@ -1,17 +1,17 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: cars-api-gateway
   cloud:
     gateway:
       routes:
-        - id: test
+        - id: users-get
           uri: lb://users
           predicates:
             - Path=/users/**
             - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: register
+        - id: users-post
           uri: lb://users
           predicates:
             - Path=/users/**
