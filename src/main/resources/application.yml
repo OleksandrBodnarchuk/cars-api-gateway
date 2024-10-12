@@ -1,55 +1,6 @@
 spring:
+  config.import: configserver:http://localhost:8888
   application:
     name: cars-api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: users-test
-          uri: lb://users
-          predicates:
-            - Path=/users/test
-            - Method=GET
-            - Header=Authorization, Bearer (.*)
-          filters:
-            - RemoveRequestHeader=Cookie
-            #            - RewritePath=/users/(?<segment>.*), /$\{segment}
-            - name: AuthHeaderFilter
-              args:
-                headerName: Authorization
-        - id: users-post
-          uri: lb://users/**
-          predicates:
-            - Path=/users
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-        #            - RewritePath=/users/(?<segment>.*), /$\{segment}
-        - id: users-login
-          uri: lb://users
-          predicates:
-            - Path=/users/login
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-        #            - RewritePath=/users/(?<segment>.*), /$\{segment}
-        - id: test
-          uri: lb://accounts
-          predicates:
-            - Path=/accounts/**
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: cars-get
-          uri: lb://cars
-          predicates:
-            - Path=/cars/**
-            - Method=GET
-server:
-  port: 8082
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:9191/eureka
-  instance:
-    preferIpAddress: false
+  profiles:
+    active: dev
